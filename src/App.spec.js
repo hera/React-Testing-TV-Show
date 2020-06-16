@@ -10,9 +10,7 @@ jest.mock('./api/fetchShow');
 test('test app', async () => {
     mockFetchShow.mockResolvedValueOnce(mockData);
 
-
     // check episodes in mockData
-
     expect(mockData).toHaveProperty('data');
     expect(mockData.data).toHaveProperty('_embedded');
     expect(mockData.data._embedded.episodes).toHaveLength(26);
@@ -24,6 +22,10 @@ test('test app', async () => {
     await waitFor(() => {
         expect(getByText(/select a season/i));
     });
+
+    // episodes are still not there
+    const episodes = queryAllByTestId('episode');
+    expect(episodes).toHaveLength(0);
 
     userEvent.click(
         getByText(/select a season/i)
